@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { TechBackground } from "./components/TechBackground/TechBackground";
 import "./globals.css";
 
 const geistSans = localFont({
@@ -27,8 +26,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className="scroll-smooth">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}>
-        <TechBackground />
-        <div className="fixed inset-0 bg-black/60 -z-10" />
+        <div className="fixed inset-0 bg-black/40 -z-10" />
         <div className="relative z-10">
           {children}
         </div>

@@ -96,10 +96,9 @@ export function ChatWidget() {
     safeSetItem(STORAGE_KEY_CONVERSATION, conversationState);
   }, [conversationState]);
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    const text = input.trim();
-    if (!text || loading) return;
+  async function sendMessage(text: string) {
+    const trimmed = text.trim();
+    if (!trimmed || loading) return;
 
     setInput("");
     setError(null);
@@ -107,7 +106,7 @@ export function ChatWidget() {
     const userMessage: ChatMessage = {
       id: `user-${Date.now()}`,
       role: "user",
-      content: text,
+      content: trimmed,
     };
     setMessages((prev) => [...prev, userMessage]);
     setLoading(true);
@@ -117,7 +116,7 @@ export function ChatWidget() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          message: text,
+          message: trimmed,
           state: leadState,
           conversationState,
         }),
@@ -151,6 +150,11 @@ export function ChatWidget() {
     }
   }
 
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    sendMessage(input);
+  }
+
   return (
     <>
       <button
@@ -174,16 +178,34 @@ export function ChatWidget() {
       {open && (
         <div className="fixed bottom-24 right-6 z-40 flex w-full max-w-md flex-col overflow-hidden rounded-xl border border-zinc-800 bg-[#09090b] shadow-xl">
           <div className="border-b border-zinc-800 bg-zinc-900/80 px-4 py-3">
-            <h3 className="text-sm font-semibold text-white">Chat Cynix</h3>
-            <p className="text-xs text-zinc-400">Site ou aplicativo? Conte o que você precisa e enviamos um orçamento.</p>
+            <h3 className="text-sm font-semibold text-white">Atendimento Cynix</h3>
+            <p className="text-xs text-zinc-400">Uma pergunta por vez. No final enviamos um orçamento.</p>
           </div>
 
           <div className="flex max-h-[60vh] min-h-[280px] flex-1 flex-col">
             <div className="flex-1 space-y-4 overflow-y-auto p-4">
               {messages.length === 0 && (
-                <p className="text-center text-sm text-zinc-500">
-                  Olá! Você precisa de um site profissional ou de um aplicativo/sistema sob medida? Digite abaixo.
-                </p>
+                <div className="space-y-3">
+                  <p className="text-center text-sm text-zinc-400">
+                    O que você precisa?
+                  </p>
+                  <div className="flex flex-wrap justify-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => sendMessage("Quero um site")}
+                      className="rounded-lg border border-zinc-600 bg-zinc-800/80 px-4 py-2 text-sm text-zinc-200 transition hover:border-blue-500 hover:bg-zinc-700"
+                    >
+                      Quero um site
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => sendMessage("Quero um aplicativo ou sistema")}
+                      className="rounded-lg border border-zinc-600 bg-zinc-800/80 px-4 py-2 text-sm text-zinc-200 transition hover:border-blue-500 hover:bg-zinc-700"
+                    >
+                      Quero um aplicativo
+                    </button>
+                  </div>
+                </div>
               )}
               {messages.map((msg) => (
                 <div

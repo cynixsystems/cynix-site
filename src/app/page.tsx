@@ -1,5 +1,6 @@
 import { ChatWidget } from "./components/ChatWidget";
 import { OpenChatLink } from "./components/OpenChatLink";
+import { SiteHeader } from "./components/SiteHeader";
 
 const WHATSAPP_URL =
   "https://wa.me/5551995580969?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20os%20serviços%20da%20Cynix";
@@ -69,49 +70,17 @@ const SEGMENTOS = [
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[#09090b] text-zinc-100">
-      {/* Header */}
-      <header className="fixed top-0 z-50 w-full border-b border-zinc-800/80 bg-[#09090b]/95 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-          <a href="/" className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-600 text-sm font-semibold text-white">
-              C
-            </div>
-            <span className="text-lg font-semibold text-white">Cynix</span>
-          </a>
-          <nav className="hidden items-center gap-8 md:flex">
-            <a href="#solucoes" className="text-sm font-medium text-zinc-400 transition-colors hover:text-white">
-              Soluções
-            </a>
-            <a href="#diferenciais" className="text-sm font-medium text-zinc-400 transition-colors hover:text-white">
-              Diferenciais
-            </a>
-            <a href="#metodologia" className="text-sm font-medium text-zinc-400 transition-colors hover:text-white">
-              Como trabalhamos
-            </a>
-            <a href="#contato" className="text-sm font-medium text-zinc-400 transition-colors hover:text-white">
-              Contato
-            </a>
-          </nav>
-          <a
-            href={WHATSAPP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-700"
-          >
-            Solicitar orçamento
-          </a>
-        </div>
-      </header>
+    <div className="min-h-screen bg-transparent text-zinc-100">
+      <SiteHeader />
 
       <main>
         {/* Hero — crescimento empresarial */}
         <section className="mx-auto max-w-6xl px-6 pt-32 pb-20 md:pt-40 md:pb-28">
-          <div className="max-w-3xl">
-            <h1 className="mb-6 text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl md:text-5xl">
+          <div className="max-w-3xl rounded-2xl bg-black/50 px-6 py-8 backdrop-blur-sm md:px-8 md:py-10">
+            <h1 className="text-contrast-strong text-neon-strong mb-6 text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl md:text-5xl">
               Seu negócio cresce quando sua presença digital é profissional
             </h1>
-            <p className="mb-10 text-lg leading-relaxed text-zinc-400 md:text-xl">
+            <p className="text-contrast text-neon mb-10 text-lg leading-relaxed text-zinc-200 md:text-xl">
               Desenvolvemos sites de alto impacto e aplicativos sob medida para pequenas e médias empresas. Tecnologia que vende mais e opera melhor.
             </p>
             <div className="flex flex-wrap gap-4">
@@ -137,10 +106,10 @@ export default function Home() {
         {/* Nossas Soluções — dois blocos */}
         <section id="solucoes" className="border-t border-zinc-800/80 bg-zinc-950/50 py-20">
           <div className="mx-auto max-w-6xl px-6">
-            <h2 className="mb-3 text-2xl font-semibold text-white md:text-3xl">
+            <h2 className="text-contrast text-neon mb-3 text-2xl font-semibold text-white md:text-3xl">
               Nossas soluções
             </h2>
-            <p className="mb-14 max-w-xl text-zinc-400">
+            <p className="text-contrast mb-14 max-w-xl text-zinc-300">
               Do site que converte visitantes em clientes ao sistema que organiza sua operação.
             </p>
 
@@ -232,10 +201,10 @@ export default function Home() {
         {/* Diferenciais */}
         <section id="diferenciais" className="border-t border-zinc-800/80 py-20">
           <div className="mx-auto max-w-6xl px-6">
-            <h2 className="mb-3 text-2xl font-semibold text-white md:text-3xl">
+            <h2 className="text-contrast text-neon mb-3 text-2xl font-semibold text-white md:text-3xl">
               Por que a Cynix
             </h2>
-            <p className="mb-14 max-w-xl text-zinc-400">
+            <p className="text-contrast mb-14 max-w-xl text-zinc-300">
               Posicionamos sua empresa com tecnologia estratégica e suporte contínuo.
             </p>
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
@@ -282,10 +251,10 @@ export default function Home() {
         {/* Metodologia */}
         <section id="metodologia" className="border-t border-zinc-800/80 bg-zinc-950/50 py-20">
           <div className="mx-auto max-w-6xl px-6">
-            <h2 className="mb-3 text-2xl font-semibold text-white md:text-3xl">
+            <h2 className="text-contrast text-neon mb-3 text-2xl font-semibold text-white md:text-3xl">
               Como trabalhamos
             </h2>
-            <p className="mb-14 max-w-xl text-zinc-400">
+            <p className="text-contrast mb-14 max-w-xl text-zinc-300">
               Processo claro, do primeiro contato à entrega e suporte.
             </p>
             <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
@@ -324,10 +293,10 @@ export default function Home() {
         {/* CTA final */}
         <section id="contato" className="border-t border-zinc-800/80 py-20">
           <div className="mx-auto max-w-6xl px-6 text-center">
-            <h2 className="text-2xl font-semibold text-white md:text-3xl">
+            <h2 className="text-contrast text-neon text-2xl font-semibold text-white md:text-3xl">
               Pronto para levar seu negócio ao próximo nível?
             </h2>
-            <p className="mx-auto mt-3 max-w-md text-zinc-400">
+            <p className="text-contrast mx-auto mt-3 max-w-md text-zinc-300">
               Fale com nossa equipe pelo WhatsApp ou use o chat. Resposta rápida e orçamento sem compromisso.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
