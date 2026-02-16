@@ -1,4 +1,3 @@
-/** Layout oficial Cynix — landing raiz (/) — deploy automático via Vercel */
 import Image from "next/image";
 import Link from "next/link";
 import { ChatWidget } from "./components/ChatWidget";
@@ -18,7 +17,7 @@ export default function RootPage() {
     <div className="min-h-screen bg-transparent text-zinc-100">
       <header className="fixed top-0 z-50 w-full border-b border-zinc-800/80 bg-black/50 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-          <Link href="/pt-BR" className="flex items-center gap-2.5">
+          <Link href="/" className="flex items-center gap-2.5">
             <Image
               src="/Gemini_Generated_Image_h033tph033tph033.png"
               alt="CYNIX"
@@ -28,6 +27,14 @@ export default function RootPage() {
               priority
             />
           </Link>
+          <nav className="hidden items-center gap-6 md:flex">
+            <a href="#servicos" className="text-sm font-medium text-zinc-400 transition-colors hover:text-white">
+              Serviços
+            </a>
+            <a href="#contato" className="text-sm font-medium text-zinc-400 transition-colors hover:text-white">
+              Contato
+            </a>
+          </nav>
           <a
             href={WHATSAPP_URL}
             target="_blank"
@@ -90,7 +97,7 @@ export default function RootPage() {
           </div>
         </section>
 
-        <section className="border-t border-zinc-800/80 py-16">
+        <section id="contato" className="border-t border-zinc-800/80 py-16">
           <div className="mx-auto max-w-6xl px-6 text-center">
             <p className="mb-6 text-zinc-300">Pronto para modernizar seu negócio?</p>
             <a
