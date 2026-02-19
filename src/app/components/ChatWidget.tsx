@@ -84,6 +84,16 @@ export function ChatWidget() {
     scrollToBottom();
   }, [messages, scrollToBottom]);
 
+  // Manter foco no campo de mensagem após cada resposta do assistente (evita ter que clicar de novo)
+  const wasLoading = useRef(false);
+  useEffect(() => {
+    if (wasLoading.current && !loading && open) {
+      const t = setTimeout(() => inputRef.current?.focus(), 100);
+      return () => clearTimeout(t);
+    }
+    wasLoading.current = loading;
+  }, [loading, open]);
+
   useEffect(() => {
     safeSetItem(STORAGE_KEY_MESSAGES, messages);
   }, [messages]);

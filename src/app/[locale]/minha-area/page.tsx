@@ -1,10 +1,13 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/supabase/auth";
 import { RequireAuth } from "../../components/RequireAuth";
 import { signOut } from "@/lib/supabase/auth";
 import { useLocale } from "next-intl";
 import { Link } from "../../../i18n/navigation";
+import { fetchProjects } from "@/lib/supabase/projects";
+import type { Project } from "@/lib/supabase/projects";
 
 const STATUS_LABELS: Record<string, string> = {
   briefing: "Em briefing",
@@ -24,7 +27,19 @@ export default function MinhaAreaPage() {
 function MinhaAreaContent() {
   const { user } = useAuth();
   const locale = useLocale();
-  const projects: { id: string; name: string; status: string }[] = [];
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!user?.id) {
+      setLoading(false);
+      return;
+    }
+    fetchProjects(user.id).then((data) => {
+      setProjects(data);
+      setLoading(false);
+    });
+  }, [user?.id]);
 
   return (
     <div className="min-h-screen bg-transparent">
@@ -50,7 +65,11 @@ function MinhaAreaContent() {
         <h1 className="text-contrast text-neon mb-2 text-2xl font-semibold text-white">Minha área</h1>
         <p className="mb-8 text-zinc-400">Acompanhe o status dos seus projetos e acesse as prévias.</p>
 
-        {projects.length === 0 ? (
+        {loading ? (
+          <div className="rounded-2xl border border-zinc-800 bg-black/40 p-12 text-center text-zinc-400">
+            Carregando projetos...
+          </div>
+        ) : projects.length === 0 ? (
           <div className="rounded-2xl border border-zinc-800 bg-black/40 p-12 text-center">
             <p className="text-zinc-400">Você ainda não tem projetos.</p>
             <p className="mt-2 text-sm text-zinc-500">Quando fechar um orçamento conosco, ele aparecerá aqui com status e prévias.</p>

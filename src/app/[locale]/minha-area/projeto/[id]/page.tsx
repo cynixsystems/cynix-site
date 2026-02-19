@@ -1,8 +1,13 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { RequireAuth } from "../../../../components/RequireAuth";
 import { Link } from "../../../../../i18n/navigation";
+import { useAuth } from "@/lib/supabase/auth";
+import { fetchProjectById, fetchPreviewsByProject } from "@/lib/supabase/projects";
+import type { Project } from "@/lib/supabase/projects";
+import type { Preview } from "@/lib/supabase/projects";
 
 const STATUS_STEPS = [
   { id: "briefing", label: "Em briefing" },
@@ -22,8 +27,24 @@ export default function ProjetoPage() {
 function ProjetoContent() {
   const params = useParams();
   const id = params.id as string;
-  const status = "briefing";
-  const previews: { title: string; url: string }[] = [];
+  const { user } = useAuth();
+  const [project, setProject] = useState<Project | null>(null);
+  const [previews, setPreviews] = useState<Preview[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!user?.id || !id) {
+      setLoading(false);
+      return;
+    }
+    Promise.all([fetchProjectById(id, user.id), fetchPreviewsByProject(id)]).then(([p, prevs]) => {
+      setProject(p ?? null);
+      setPreviews(prevs);
+      setLoading(false);
+    });
+  }, [user?.id, id]);
+
+  const status = project?.status ?? "briefing";
 
   return (
     <div className="min-h-screen bg-transparent">
@@ -38,7 +59,20 @@ function ProjetoContent() {
       </header>
 
       <main className="mx-auto max-w-6xl px-6 py-12">
-        <h1 className="text-contrast text-neon mb-6 text-2xl font-semibold text-white">Projeto #{id}</h1>
+        {loading ? (
+          <p className="text-zinc-400">Carregando projeto...</p>
+        ) : !project ? (
+          <div className="rounded-2xl border border-zinc-800 bg-black/40 p-8 text-center text-zinc-400">
+            <p>Projeto não encontrado.</p>
+            <Link href="/minha-area" className="mt-4 inline-block text-blue-400 hover:text-blue-300">
+              ← Voltar para Minha área
+            </Link>
+          </div>
+        ) : (
+          <>
+            <h1 className="text-contrast text-neon mb-6 text-2xl font-semibold text-white">
+              {project.name}
+            </h1>
 
         <section className="mb-10">
           <h2 className="mb-4 text-sm font-medium uppercase tracking-wider text-zinc-500">Status do desenvolvimento</h2>
@@ -70,9 +104,9 @@ function ProjetoContent() {
             </div>
           ) : (
             <div className="grid gap-4 sm:grid-cols-2">
-              {previews.map((preview, i) => (
+              {previews.map((preview) => (
                 <a
-                  key={i}
+                  key={preview.id}
                   href={preview.url}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -85,6 +119,8 @@ function ProjetoContent() {
             </div>
           )}
         </section>
+          </>
+        )}
       </main>
     </div>
   );

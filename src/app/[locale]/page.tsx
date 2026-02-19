@@ -1,5 +1,5 @@
 import { setRequestLocale } from "next-intl/server";
-import { ChatWidget } from "../components/ChatWidget";
+import { AiSalesAgent } from "../components/AiSalesAgent";
 import { SiteHeader } from "../components/SiteHeader";
 
 const WHATSAPP_URL =
@@ -99,7 +99,7 @@ export default async function HomePage({ params }: Props) {
         </div>
       </footer>
 
-      <ChatWidget />
+      <AiSalesAgent />
     </div>
   );
 }

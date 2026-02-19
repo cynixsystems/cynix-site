@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ChatWidget } from "./components/ChatWidget";
+import { AiSalesAgent } from "./components/AiSalesAgent";
+import { RootLanguageSwitcher } from "./components/RootLanguageSwitcher";
 
 const WHATSAPP_URL =
   "https://wa.me/5551995580969?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20os%20serviços%20da%20Cynix";
@@ -35,14 +36,17 @@ export default function RootPage() {
               Contato
             </a>
           </nav>
-          <a
-            href={WHATSAPP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-emerald-700"
-          >
-            Falar no WhatsApp
-          </a>
+          <div className="flex items-center gap-3">
+            <RootLanguageSwitcher />
+            <a
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-emerald-700"
+            >
+              Falar no WhatsApp
+            </a>
+          </div>
         </div>
       </header>
 
@@ -118,7 +122,7 @@ export default function RootPage() {
         </div>
       </footer>
 
-      <ChatWidget />
+      <AiSalesAgent />
     </div>
   );
 }

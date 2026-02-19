@@ -1,6 +1,8 @@
 # Continuar daqui
 
-**Última parada:** área do cliente, checkout protegido, header com login e documento de sugestões nível internacional.
+**Finalizado hoje.** Pode continuar amanhã a partir daqui.
+
+**Última parada:** Assistente comercial (AI Sales Agent), alerta de lead em tempo real (POST `/api/lead-alert` + Z-API). Teste de disparo ok (API 200); Z-API retorna 404 "Instance not found" — conferir instância ativa no painel Z-API para o WhatsApp receber de fato.
 
 ---
 
@@ -21,7 +23,7 @@
 ## Como retomar
 
 1. Abrir o **Cursor** em `c:\cynix-site`.
-2. Abrir **CONTINUAR_AQUI.md** ou **RELATORIO_PROJETO.md** e dizer: *"Continuamos de onde paramos"*.
+2. Abrir **CONTINUAR_AQUI.md** ou **RELATORIO_PROJETO.md** e dizer: *"Continuamos de onde paramos"* ou *"Rodar o CONTINUAR_AQUI"*.
 3. Para rodar o site: duplo clique em **CYNIX - Iniciar Projeto**. Se der porta em uso: **FINALIZAR_CYNIX.bat** e depois iniciar de novo.
 
 ---
@@ -34,10 +36,19 @@
 
 ## Próximos passos (quando quiser)
 
-- Menu mobile (hamburger) no header.
-- Supabase: tabelas `projects` e `previews`, RLS; popular `/minha-area` com dados reais.
+- ~~Menu mobile (hamburger) no header.~~ ✅ Feito: botão hamburger em mobile, painel com links, LanguageSelector, auth e WhatsApp.
+- ~~Supabase: tabelas `projects` e `previews`, RLS; popular `/minha-area` com dados reais.~~ ✅ Feito: schema em `docs/supabase-schema-projects-preview.sql`, lib `src/lib/supabase/projects.ts`, `/minha-area` e `/minha-area/projeto/[id]` buscam do Supabase. Execute o SQL no Supabase Dashboard para criar as tabelas.
 - Checkout: integração de pagamento e resumo do pedido.
 - Itens do documento internacional: Open Graph, sitemap, otimizar imagem de fundo, política de privacidade.
 - Traduzir textos de login/cadastro/minha-area/checkout (por enquanto em PT-BR).
 
 *Atualize este arquivo quando mudar algo importante ou quando parar em outro ponto.*
+
+---
+
+## Alerta comercial em tempo real (Z-API)
+
+- **Variáveis no `.env.local`:** `ZAPI_INSTANCE_ID`, `ZAPI_TOKEN`, `CYNIX_ALERT_WHATSAPP=5591998381331`.
+- **POST `/api/lead-alert`:** recebe `{ nome, telefone, interesse?, resumoConversa? }`, envia mensagem para o WhatsApp da CYNIX via Z-API. Lead é só notificação; salvamento de lead segue em `doLeadComplete` / `/api/lead-complete`.
+- **Chat:** ao capturar lead (nome + telefone + cidade), o backend chama `sendLeadAlert` em background (sem travar o chat).
+- **Teste de disparo:** `POST http://localhost:3000/api/lead-alert` com body `{"nome":"Teste Lead","telefone":"51999999999","interesse":"ecommerce","resumoConversa":"cliente quer loja online"}`. Resposta esperada: `200` e `{"ok":true}`. No terminal do Next: `[lead-alert] sucesso envio WhatsApp` ou `[lead-alert] erro envio WhatsApp` (ex.: 404 Instance not found se a instância Z-API não existir ou estiver inativa).
